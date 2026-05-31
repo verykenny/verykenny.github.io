@@ -100,3 +100,94 @@ if (!window.mobileCheck()) {
 
     });
 }
+
+
+// 1. Firebase Configuration
+const firebaseConfig = {
+    apiKey: "YOUR_API_KEY",
+    authDomain: "YOUR_PROJECT.firebaseapp.com",
+    databaseURL: "https://YOUR_PROJECT-default-rtdb.firebaseio.com",
+    projectId: "YOUR_PROJECT",
+    storageBucket: "YOUR_PROJECT.appspot.com",
+    messagingSenderId: "YOUR_SENDER_ID",
+    appId: "YOUR_APP_ID"
+};
+
+// Initialize Firebase
+firebase.initializeApp(firebaseConfig);
+const database = firebase.database();
+const gameRef = database.ref('lorcana_game');
+
+// 2. Secret Trigger Logic (Double click "Ken" in the header)
+document.getElementById('secret-trigger').addEventListener('dblclick', function(e) {
+    e.preventDefault();
+    document.getElementById('lorcana-modal').classList.remove('lorcana-hidden');
+});
+
+// Close modal
+document.querySelector('.lorcana-close').addEventListener('click', function() {
+    document.getElementById('lorcana-modal').classList.add('lorcana-hidden');
+});
+
+// 3. Realtime Database Sync
+gameRef.on('value', (snapshot) => {
+    const data = snapshot.val();
+    if (data) {
+        // Update Scores
+        document.getElementById('p1-score').innerText = data.p1 || 0;
+        document.getElementById('p2-score').innerText = data.p2 || 0;
+        
+        // Update Log
+        if (data.log) {
+            const logBox = document.getElementById('lorcana-log');
+            logBox.innerHTML = data.log.join('<br>');
+            logBox.scrollTop = logBox.scrollHeight; // Auto-scroll to bottom
+        }
+    } else {
+        // Initialize if DB is empty
+        resetLorcana();
+    }
+});
+
+// 4. Game Functions
+function changeLore(player, amount) {
+    gameRef.once('value').then((snapshot) => {
+        let data = snapshot.val() || { p1: 0, p2: 0, log: [] };
+        
+        // Calculate new score (clamped between 0 and 20 for standard Lorcana play)
+        let currentScore = data[player] || 0;
+        let newScore = Math.max(0, Math.min(20, currentScore + amount));
+        
+        if (currentScore === newScore) return; // No change
+
+        data[player] = newScore;
+        
+        // Add log entry
+        let playerName = player === 'p1' ? 'Illumineer 1' : 'Illumineer 2';
+        let action = amount > 0 ? `gained ${amount}` : `lost ${Math.abs(amount)}`;
+        let timestamp = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+        
+        if (!data.log) data.log = [];
+        data.log.push(`[${timestamp}] ${playerName} ${action} Lore (${newScore})`);
+        
+        // Keep log short (last 10 moves)
+        if (data.log.length > 10) data.log.shift();
+
+        // Check Win Condition
+        if (newScore === 20) {
+            data.log.push(`🎉 ${playerName} wins the race to 20 Lore!`);
+        }
+
+        gameRef.set(data);
+    });
+}
+
+function resetLorcana() {
+    if(confirm("Are you sure you want to reset the match?")) {
+        gameRef.set({
+            p1: 0,
+            p2: 0,
+            log: ["Match started. First to 20 Lore wins!"]
+        });
+    }
+}
