@@ -160,3 +160,107 @@ footer .button {
     padding: 0.4em 2.3em 0.4em 2.3em;
     background-color: #7299c6;
 }
+
+/* Hidden State */
+.lorcana-hidden {
+    display: none !important;
+}
+
+/* Modal Overlay */
+#lorcana-modal {
+    position: fixed;
+    z-index: 99999;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(10, 5, 20, 0.85); /* Dark ink shade */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    backdrop-filter: blur(5px);
+}
+
+/* Modal Content Box */
+.lorcana-content {
+    background: linear-gradient(135deg, #1e1233 0%, #0d071a 100%);
+    border: 2px solid #be9544; /* Lorcana Gold */
+    padding: 30px;
+    border-radius: 12px;
+    width: 90%;
+    max-width: 500px;
+    text-align: center;
+    box-shadow: 0 0 25px rgba(190, 149, 68, 0.3);
+    position: relative;
+    color: #fff;
+}
+
+.lorcana-close {
+    position: absolute;
+    right: 20px;
+    top: 15px;
+    color: #be9544;
+    font-size: 28px;
+    cursor: pointer;
+}
+
+.lorcana-players {
+    display: flex;
+    justify-content: space-around;
+    margin: 25px 0;
+}
+
+.lorcana-card {
+    background: rgba(255, 255, 255, 0.05);
+    padding: 15px;
+    border-radius: 8px;
+    width: 45%;
+    border: 1px solid rgba(190, 149, 68, 0.2);
+}
+
+.lorcana-score {
+    font-size: 3.5rem;
+    font-weight: bold;
+    color: #be9544;
+    margin: 10px 0;
+}
+
+.lorcana-btns button {
+    background: #be9544;
+    color: #1e1233;
+    border: none;
+    padding: 8px 15px;
+    font-weight: bold;
+    margin: 0 5px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.lorcana-btns button:hover {
+    background: #dfb663;
+    transform: scale(1.05);
+}
+
+/* Quest Log */
+.lorcana-log-container {
+    background: rgba(0,0,0,0.3);
+    padding: 10px;
+    border-radius: 6px;
+    height: 80px;
+    overflow-y: auto;
+    font-size: 0.85rem;
+    text-align: left;
+    border: 1px solid rgba(255,255,255,0.1);
+    margin-bottom: 20px;
+}
+
+#lorcana-reset {
+    background: #661020;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+#lorcana-reset:hover { background: #911b30; }
