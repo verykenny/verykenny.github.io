@@ -24,11 +24,15 @@
         <div class="top">
 
             <!-- Logo -->
-            <div id="logo">
+            <!-- <div id="logo">
                 <!-- <h1 id="title"><a href="#top">Kenneth Donahue</a></h1> -->
                 <h1 id="title"><a href="#top">Ken</a></h1>
                 <p>Software Engineer</p>
-            </div>
+            </div> -->
+			<div id="logo">
+			    <h1 id="title"><a href="#top" id="secret-trigger">Ken</a></h1>
+			    <p>Software Engineer</p>
+			</div>
 
             <!-- Nav -->
             <nav id="nav">
@@ -700,6 +704,43 @@
     <script src="assets/js/main.js"></script>
     <script src="assets/js/custom.js"></script>
 
+<div id="lorcana-modal" class="lorcana-hidden">
+    <div class="lorcana-content">
+        <span class="lorcana-close">&times;</span>
+        <h2>✨ Lorcana Quest Tracker ✨</h2>
+        
+        <div class="lorcana-players">
+            <div class="lorcana-card player-one">
+                <h3>Illumineer 1</h3>
+                <div class="lorcana-score" id="p1-score">0</div>
+                <div class="lorcana-btns">
+                    <button onclick="changeLore('p1', -1)">-1</button>
+                    <button onclick="changeLore('p1', 1)">+1</button>
+                </div>
+            </div>
+
+            <div class="lorcana-card player-two">
+                <h3>Illumineer 2</h3>
+                <div class="lorcana-score" id="p2-score">0</div>
+                <div class="lorcana-btns">
+                    <button onclick="changeLore('p2', -1)">-1</button>
+                    <button onclick="changeLore('p2', 1)">+1</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="lorcana-log-container">
+            <h4>Quest Log</h4>
+            <div id="lorcana-log">Game started...</div>
+        </div>
+
+        <button id="lorcana-reset" onclick="resetLorcana()">Reset Match</button>
+    </div>
+</div>
+
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database-compat.js"></script>
+	
 </body>
 
 </html>
